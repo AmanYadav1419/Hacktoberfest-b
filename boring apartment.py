@@ -9,8 +9,7 @@ for i in range (a):
     a=int(input ())
     while a!=k:
         if k>1000:
-            k=int(k/1000)
-            k=k+1
+            k = k // 1000 + 1
             i1=1
             i=it
             i=i + 10
@@ -20,7 +19,7 @@ for i in range (a):
             sum1=sum1 + k1*i1
             print(k,sum1,"in")
             continue
-        k=k+i
+        k += i
         i=i*10
         i1=i1+1
         print(k,sum1,"1st")

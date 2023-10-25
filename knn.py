@@ -4,9 +4,7 @@
 import math
 
 def EuclideanDistance(a, b): # N dimention Euclidean distance implementation
-	s = 0
-	for i in range(len(a)):
-		s += (a[i] - b[i]) ** 2
+	s = sum((a[i] - b[i]) ** 2 for i in range(len(a)))
 	return math.sqrt(s)
 
 class KNN:
@@ -15,11 +13,12 @@ class KNN:
 		self.samples = training_data
 	
 	def predict(self, params):
-		distances = []
-		for sample in self.samples:
-			distances.append((sample[1], EuclideanDistance(params, sample[0])))
+		distances = [
+			(sample[1], EuclideanDistance(params, sample[0]))
+			for sample in self.samples
+		]
 		distances.sort(key = lambda a: a[1])
-		distances = list(map(lambda a: a[0], distances[0:self.k]))
+		distances = list(map(lambda a: a[0], distances[:self.k]))
 		return max(set(distances), key = distances.count)
 
 Iris_setosa     = 0
@@ -46,30 +45,26 @@ def EnumToClassName(enum):
 
 def ReadData():
 	training_data = []
-	training_data_file = open("iris_train.txt")
-
-	is_first_line = True
-	for line in training_data_file.readlines():
-		if is_first_line:
-			is_first_line = False
-			continue
-		items = line.replace('\n', '').split(',')
-		training_data.append([list(map(float, items[0:-1])), ClassNameToEnum(items[-1])])
-		
-	training_data_file.close()
+	with open("iris_train.txt") as training_data_file:
+		is_first_line = True
+		for line in training_data_file:
+			if is_first_line:
+				is_first_line = False
+				continue
+			items = line.replace('\n', '').split(',')
+			training_data.append(
+				[list(map(float, items[:-1])), ClassNameToEnum(items[-1])]
+			)
 
 	test_data = []
-	test_data_file = open("iris_test.txt")
-
-	is_first_line = True
-	for line in test_data_file.readlines():
-		if is_first_line:
-			is_first_line = False
-			continue
-		items = line.replace('\n', '').split(',')
-		test_data.append(list(map(float, items)))
-		
-	test_data_file.close()
+	with open("iris_test.txt") as test_data_file:
+		is_first_line = True
+		for line in test_data_file:
+			if is_first_line:
+				is_first_line = False
+				continue
+			items = line.replace('\n', '').split(',')
+			test_data.append(list(map(float, items)))
 
 	return (training_data, test_data)
 
@@ -84,10 +79,7 @@ def main():
 	k = math.sqrt(len(training_data))
 	kRounded = round(k)
 	if kRounded % 2 == 0:
-		if kRounded > k:
-			k = kRounded - 1
-		else:
-			k = kRounded + 1
+		k = kRounded - 1 if kRounded > k else kRounded + 1
 	else:
 		k = kRounded
 

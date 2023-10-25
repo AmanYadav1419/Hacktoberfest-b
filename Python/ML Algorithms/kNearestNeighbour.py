@@ -1,15 +1,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import math 
+import math
 f=[[10,5],[40,7],[3,2],[5,3]]
 l=['good','good','bad','bad']
 x=[]
 y=[]
 s=len(set(l)) #shows all categories present
-for i in range(len(f)):
-    f1=f[i][0]
+for item in f:
+    f1 = item[0]
     x=np.append(x,f1)
-    f2=f[i][1]
+    f2 = item[1]
     y=np.append(y,f2)
 print(x," ",y)
 for i in range(len(f)):
@@ -24,8 +24,7 @@ plt.plot(p,q,'b*')
 disx=[]
 disy=[]
 dis=[]
-if (k>len(f)):
-    k=len(f)
+k = min(k, len(f))
 for i in range(len(x)):
     dis=np.append(dis,math.sqrt(((p-x[i])**2)+((q-y[i])**2)))
 print(dis)
