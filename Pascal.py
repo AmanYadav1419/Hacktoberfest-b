@@ -31,7 +31,7 @@ for i in range(n):
     for j in range(0,i+1):
         print(a[i][j],end=' ')
     print(end='\n')
-n=n-1
+n -= 1
 for i in range(n-1,-1,-1):
     print(' '*(n-i),end=' ')
     for j in range(0,i+1):

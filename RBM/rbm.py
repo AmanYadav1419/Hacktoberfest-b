@@ -86,7 +86,7 @@ for epoch in range(1, nb_epoch + 1):
         vk = training_set[id_user:id_user+batch_size]
         v0 = training_set[id_user:id_user+batch_size]
         ph0,_ = rbm.sample_h(v0)
-        for k in range(10):
+        for _ in range(10):
             _,hk = rbm.sample_h(vk)
             _,vk = rbm.sample_v(hk)
             vk[v0<0] = v0[v0<0]
@@ -94,7 +94,7 @@ for epoch in range(1, nb_epoch + 1):
         rbm.train(v0, vk, ph0, phk)
         train_loss += torch.mean(torch.abs(v0[v0>=0] - vk[v0>=0]))
         s += 1.
-    print('epoch: '+str(epoch)+' loss: '+str(train_loss/s))
+    print(f'epoch: {str(epoch)} loss: {str(train_loss / s)}')
 
 # Testing the RBM
 test_loss = 0
@@ -107,4 +107,4 @@ for id_user in range(nb_users):
         _,v = rbm.sample_v(h)
         test_loss += torch.mean(torch.abs(vt[vt>=0] - v[vt>=0]))
         s += 1.
-print('test loss: '+str(test_loss/s))
+print(f'test loss: {str(test_loss / s)}')

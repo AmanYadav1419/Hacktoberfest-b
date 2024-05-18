@@ -24,18 +24,18 @@ async def on_ready():
 
 @Client.event
 async def on_message(message):
-    x=0
     if message.author == Client.user:   
         return
     if message.content == '/nitro':
-        logmess = "Command run at:"+str(datetime.datetime.now())+"\n"
+        logmess = f"Command run at:{str(datetime.datetime.now())}" + "\n"
         f=open("log.txt", "a+")
         f.write(logmess)
         game=discord.Game(name="""Generating Nitro Codes""")
         await Client.change_presence(activity=game)
+        x=0
         while x < 50:
             await message.channel.send(link + gen())
-            x=x+1
+            x += 1
         else:
             return
 
